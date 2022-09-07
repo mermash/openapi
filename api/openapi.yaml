@@ -1,0 +1,129 @@
+openapi: 3.0.1
+info:
+  title: session.proto
+  version: version not set
+servers:
+- url: /
+tags:
+- name: AuthChecker
+paths:
+  /v1/session/check/{ID}:
+    get:
+      operationId: AuthChecker_Check
+      parameters:
+      - in: path
+        name: ID
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sessionSession'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+          description: An unexpected error response.
+      tags:
+      - AuthChecker
+  /v1/session/create:
+    post:
+      operationId: AuthChecker_Create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sessionSession'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sessionSessionID'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+          description: An unexpected error response.
+      tags:
+      - AuthChecker
+      x-codegen-request-body-name: body
+  /v1/session/delete:
+    post:
+      operationId: AuthChecker_Delete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sessionSessionID'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sessionNothing'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+          description: An unexpected error response.
+      tags:
+      - AuthChecker
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    protobufAny:
+      additionalProperties:
+        type: object
+      properties:
+        '@type':
+          type: string
+      type: object
+    rpcStatus:
+      properties:
+        code:
+          format: int32
+          type: integer
+        message:
+          type: string
+        details:
+          items:
+            $ref: '#/components/schemas/protobufAny'
+          type: array
+      type: object
+    sessionNothing:
+      example:
+        dummy: true
+      properties:
+        dummy:
+          type: boolean
+      type: object
+    sessionSession:
+      example:
+        useragent: useragent
+        login: login
+      properties:
+        login:
+          type: string
+        useragent:
+          type: string
+      type: object
+    sessionSessionID:
+      example:
+        ID: ID
+      properties:
+        ID:
+          type: string
+      type: object
+x-original-swagger-version: "2.0"
